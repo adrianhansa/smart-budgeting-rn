@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TextInput } from "react-native";
 const EditBudgetLimit = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>EditBudgetLimit</Text>
+      <Text style={styles.title}>EditBudgetLimit!</Text>
     </View>
   );
 };
