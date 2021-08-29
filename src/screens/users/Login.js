@@ -10,19 +10,17 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userActions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => {
-    state.auth;
-    console.log(state);
-  });
+  const { loading, success, user, error } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    if (auth) {
-      console.log(auth);
+    if (success) {
+      console.log("Authenticated");
     }
-    console.log("Please login", auth);
-  }, [dispatch]);
+  }, [dispatch, success]);
 
   const schemaValidation = yup.object({
     name: yup.string().required(),
@@ -41,7 +39,6 @@ const Login = () => {
         schemaValidation={schemaValidation}
         onSubmit={(values) => {
           dispatch(login(values));
-          console.log(auth);
         }}
       >
         {(props) => {

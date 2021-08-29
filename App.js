@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Login from "./src/screens/users/Login";
+import Register from "./src/screens/users/Register";
 import store from "./src/redux/store";
 import { Provider } from "react-redux";
 
@@ -9,7 +9,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <Login />
+        <Register />
       </View>
     </Provider>
   );
