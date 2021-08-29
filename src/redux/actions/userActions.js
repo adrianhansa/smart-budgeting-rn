@@ -45,6 +45,6 @@ export const login = (credentials) => async (dispatch) => {
 
 export const logout = async (dispatch) => {
   const response = await axios.get(`${BASE_URL}/logout`);
-  await AsyncStorage.removeItem("token", response.headers);
+  await AsyncStorage.removeItem("token");
   dispatch({ type: LOGOUT, payload: response.data });
 };
