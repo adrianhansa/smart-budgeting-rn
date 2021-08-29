@@ -5,6 +5,7 @@ import {
   REGISTER_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  LOGOUT,
 } from "../constants/usersConstants";
 
 export const authReducer = (state = {}, action) => {
