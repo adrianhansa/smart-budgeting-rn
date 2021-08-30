@@ -27,10 +27,10 @@ export const createAccount = (account) => async (dispatch) => {
       headers: { token },
     });
     dispatch({ type: CREATE_ACCOUNT_SUCCESS, payload: data });
-    // const response = await axios.get(`${BASE_URL}/accounts`, {
-    //   headers: token,
-    // });
-    // dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: response.data });
+    const response = await axios.get(`${BASE_URL}/accounts`, {
+      headers: { token },
+    });
+    dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({
       type: CREATE_ACCOUNT_FAIL,
@@ -87,7 +87,7 @@ export const updateAccount = (slug, account) => async (dispatch) => {
     });
     dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
     const response = await axios.get(`${BASE_URL}/accounts`, {
-      headers: token,
+      headers: { token },
     });
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: response.data });
   } catch (error) {
@@ -109,7 +109,7 @@ export const deleteAccount = (slug) => async (dispatch) => {
     });
     dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: data });
     const response = await axios.get(`${BASE_URL}/accounts`, {
-      headers: token,
+      headers: { token },
     });
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: response.data });
   } catch (error) {

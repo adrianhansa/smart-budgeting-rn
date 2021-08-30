@@ -16,7 +16,7 @@ import {
   UPDATE_ACCOUNT_SUCCESS,
 } from "../constants/accountConstants";
 
-export const createAccountReducer = (state = { account: {} }, action) => {
+export const createAccountReducer = (state = { ...(account = {}) }, action) => {
   switch (action.type) {
     case CREATE_ACCOUNT_REQUEST:
       return { loading: true };
@@ -30,7 +30,7 @@ export const createAccountReducer = (state = { account: {} }, action) => {
 };
 
 export const updateAccountReducer = (
-  state = { accountUpdated: {} },
+  state = { ...(accountUpdated = {}) },
   action
 ) => {
   switch (action.type) {
@@ -45,7 +45,10 @@ export const updateAccountReducer = (
   }
 };
 
-export const getAccountReducer = (state = { accountDetails: {} }, action) => {
+export const getAccountReducer = (
+  state = { ...(accountDetails = {}) },
+  action
+) => {
   switch (action.type) {
     case GET_ACCOUNT_REQUEST:
       return { loading: true };
@@ -58,12 +61,12 @@ export const getAccountReducer = (state = { accountDetails: {} }, action) => {
   }
 };
 
-export const getAccountsReducer = (state = { accounts: [] }, action) => {
+export const getAccountsReducer = (state = { ...(accounts = []) }, action) => {
   switch (action.type) {
     case GET_ACCOUNTS_REQUEST:
       return { loading: true };
     case GET_ACCOUNTS_SUCCESS:
-      return { loading: false, success: true, account: action.payload };
+      return { loading: false, success: true, accounts: action.payload };
     case GET_ACCOUNTS_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:
@@ -72,7 +75,7 @@ export const getAccountsReducer = (state = { accounts: [] }, action) => {
 };
 
 export const deleteAccountReducer = (
-  state = { accountDeleted: {} },
+  state = { ...(accountDeleted = {}) },
   action
 ) => {
   switch (action.type) {

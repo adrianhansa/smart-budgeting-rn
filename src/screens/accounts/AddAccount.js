@@ -13,16 +13,16 @@ import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { createAccount } from "../../redux/actions/accountActions";
 
-const AddAccount = () => {
+const AddAccount = ({ navigation }) => {
   const dispatch = useDispatch();
   const schemaValidation = yup.object({
     name: yup.string().required(),
   });
 
-  const accountCreated = useSelector((state) => state);
+  const { accounts } = useSelector((state) => state.accounts);
   useEffect(() => {
-    console.log(accountCreated);
-  }, [accountCreated]);
+    console.log(accounts);
+  }, [accounts]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>AddAccount</Text>
@@ -34,6 +34,7 @@ const AddAccount = () => {
           initialValues={{ name: "" }}
           onSubmit={(values) => {
             dispatch(createAccount(values));
+            navigation.navigate("Accounts");
           }}
           schemaValidation={schemaValidation}
         >
@@ -48,7 +49,7 @@ const AddAccount = () => {
                   style={styles.textInput}
                 />
                 <Text style={styles.error}>
-                  {props.touched.nae && props.errors.name}
+                  {props.touched.name && props.errors.name}
                 </Text>
                 <TouchableOpacity
                   onPress={props.handleSubmit}
