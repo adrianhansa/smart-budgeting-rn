@@ -11,6 +11,7 @@ import EditExpense from "../screens/expenses/EditExpense";
 import Accounts from "../screens/accounts/Accounts";
 import AddAccount from "../screens/accounts/AddAccount";
 import EditAccount from "../screens/accounts/EditAccount";
+import AccountDetails from "../screens/accounts/AccountDetails";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -30,6 +31,7 @@ const AccountStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={Accounts} name="Accounts" />
+      <Stack.Screen component={AccountDetails} name="AccountDetails" />
       <Stack.Screen component={AddAccount} name="AddAccount" />
       <Stack.Screen component={EditAccount} name="EditAccount" />
     </Stack.Navigator>

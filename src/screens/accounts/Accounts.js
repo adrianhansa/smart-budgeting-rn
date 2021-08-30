@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Button, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccounts } from "../../redux/actions/accountActions";
 
@@ -24,7 +31,13 @@ const Accounts = ({ navigation }) => {
         <FlatList
           data={accounts}
           renderItem={({ item }) => (
-            <Text style={styles.item}>{item.name}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("AccountDetails", { slug: item.slug })
+              }
+            >
+              <Text style={styles.item}>{item.name}</Text>
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item._id}
         />
