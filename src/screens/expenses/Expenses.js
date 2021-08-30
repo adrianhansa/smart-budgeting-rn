@@ -1,10 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
+import Logout from "../../components/Logout";
 
 const Expenses = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Expenses</Text>
+      <Logout />
     </View>
   );
 };

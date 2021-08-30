@@ -14,6 +14,7 @@ import { register } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
+import Logo from "../../components/Logo";
 
 const Register = ({ navigation }) => {
   const schemaValidation = yup.object({
@@ -33,6 +34,7 @@ const Register = ({ navigation }) => {
         contentContainerStyle={styles.formContainer}
         keyboardShouldPersistTaps="handled"
       >
+        <Logo />
         <Text style={styles.title}>Register</Text>
         <Formik
           initialValues={{

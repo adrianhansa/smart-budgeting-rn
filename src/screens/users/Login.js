@@ -9,12 +9,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
-  Image,
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userActions";
+import Logo from "../../components/Logo";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -38,15 +38,8 @@ const Login = ({ navigation }) => {
         contentContainerStyle={styles.formContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.logo}>
-          <Text style={styles.header}>Let's make your money grow!</Text>
-          <Image
-            source={require("../../images/logo.jpg")}
-            style={{ width: Dimensions.get("window").width }}
-          />
-          <Text style={styles.title}>Enter your credentials</Text>
-        </View>
-
+        <Logo />
+        <Text style={styles.title}>Enter your credentials</Text>
         <Formik
           initialValues={{
             email: "",
@@ -55,6 +48,7 @@ const Login = ({ navigation }) => {
           schemaValidation={schemaValidation}
           onSubmit={(values) => {
             dispatch(login(values));
+            navigation.navigate("ExpensesScreen");
           }}
         >
           {(props) => {
@@ -109,19 +103,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   formContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
     alignItems: "center",
+    marginTop: 5,
     justifyContent: "center",
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     width: Dimensions.get("window").width,
   },
   title: { fontSize: 20, marginVertical: 15, color: "#3c9978" },
-  logo: {
-    width: Dimensions.get("window").width,
-    flex: 1,
-    alignItems: "center",
-  },
-  header: { padding: 20, fontSize: 30, width: "100%", textAlign: "center" },
   error: { color: "red" },
   textInput: {
     borderColor: "grey",

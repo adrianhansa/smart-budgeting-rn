@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -11,6 +12,7 @@ import Accounts from "../screens/accounts/Accounts";
 import AddAccount from "../screens/accounts/AddAccount";
 import EditAccount from "../screens/accounts/EditAccount";
 import { FontAwesome } from "@expo/vector-icons";
+import { Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,6 +47,7 @@ const AuthStack = () => {
 };
 
 const AppNavigation = () => {
+  const { success } = useSelector((state) => state.auth);
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -66,9 +69,14 @@ const AppNavigation = () => {
           },
         })}
       >
-        <Tab.Screen name="Authenticate" component={AuthStack} />
-        <Tab.Screen name="Expenses" component={ExpensesStack} />
-        <Tab.Screen name="Accounts" component={AccountStack} />
+        {success ? (
+          <>
+            <Tab.Screen name="Expenses" component={ExpensesStack} />
+            <Tab.Screen name="Accounts" component={AccountStack} />
+          </>
+        ) : (
+          <Tab.Screen name="Authenticate" component={AuthStack} />
+        )}
       </Tab.Navigator>
     </NavigationContainer>
   );
