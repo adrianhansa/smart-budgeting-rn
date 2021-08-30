@@ -60,7 +60,7 @@ const AppNavigation = () => {
               iconName = "sign-in";
             } else if (route.name === "Expenses") {
               iconName = "money";
-            } else if (route.name === "Accounts") {
+            } else if (route.name === "AccountStack") {
               iconName = "list-alt";
             }
 
@@ -71,7 +71,7 @@ const AppNavigation = () => {
         {success ? (
           <>
             <Tab.Screen name="Expenses" component={ExpensesStack} />
-            <Tab.Screen name="Accounts" component={AccountStack} />
+            <Tab.Screen name="AccountStack" component={AccountStack} />
           </>
         ) : (
           <Tab.Screen name="Authenticate" component={AuthStack} />
