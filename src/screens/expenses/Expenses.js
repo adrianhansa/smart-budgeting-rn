@@ -1,12 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import Logout from "../../components/Logout";
+import AddExpense from "./AddExpense";
 
 const Expenses = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Expenses</Text>
       <Logout />
+      <Text style={styles.title}>Expenses</Text>
+      <AddExpense />
     </View>
   );
 };

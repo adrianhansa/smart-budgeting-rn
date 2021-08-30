@@ -48,7 +48,6 @@ const Login = ({ navigation }) => {
           schemaValidation={schemaValidation}
           onSubmit={(values) => {
             dispatch(login(values));
-            navigation.navigate("ExpensesScreen");
           }}
         >
           {(props) => {

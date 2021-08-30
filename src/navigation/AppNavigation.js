@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -12,7 +12,6 @@ import Accounts from "../screens/accounts/Accounts";
 import AddAccount from "../screens/accounts/AddAccount";
 import EditAccount from "../screens/accounts/EditAccount";
 import { FontAwesome } from "@expo/vector-icons";
-import { Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
