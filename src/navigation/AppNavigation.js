@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -39,8 +38,8 @@ const AccountStack = () => {
 const AuthStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={Register} name="Register" />
       <Stack.Screen component={Login} name="Login" />
+      <Stack.Screen component={Register} name="Register" />
     </Stack.Navigator>
   );
 };
@@ -51,9 +50,9 @@ const AppNavigation = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
-          tabBarActiveTintColor: "green",
+          tabBarActiveTintColor: "#3c9978",
           tabBarIcon: ({ focused, color }) => {
-            focused ? (color = "green") : "black";
+            focused ? (color = "#3c9978") : "black";
             let iconName;
             if (route.name === "Authenticate") {
               iconName = "sign-in";
