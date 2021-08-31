@@ -50,7 +50,7 @@ export const getAccounts = () => async (dispatch) => {
       headers: { token },
     });
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: data });
-  } catch {
+  } catch (error) {
     dispatch({
       type: GET_ACCOUNTS_FAIL,
       payload: error.response.data.message

@@ -5,10 +5,11 @@ import {
   Text,
   Button,
   FlatList,
-  TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccounts } from "../../redux/actions/accountActions";
+import Account from "./Account";
 
 const Accounts = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -29,15 +30,10 @@ const Accounts = ({ navigation }) => {
         <Text>Loading...</Text>
       ) : success ? (
         <FlatList
+          style={styles.list}
           data={accounts}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("AccountDetails", { slug: item.slug })
-              }
-            >
-              <Text style={styles.item}>{item.name}</Text>
-            </TouchableOpacity>
+            <Account navigation={navigation} item={item} />
           )}
           keyExtractor={(item) => item._id}
         />
@@ -49,10 +45,16 @@ const Accounts = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  list: {
+    width: Dimensions.get("window").width - 40,
+  },
   title: { fontSize: 36 },
   error: { color: "red" },
-  item: { borderColor: "blue", borderWidth: 1, padding: 20, marginVertical: 5 },
 });
 
 export default Accounts;
