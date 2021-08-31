@@ -22,7 +22,9 @@ const Account = ({ navigation, item }) => {
           name="edit"
           size={24}
           color="green"
-          onPress={() => navigation.navigate("EditAccount")}
+          onPress={() =>
+            navigation.navigate("EditAccount", { slug: item.slug })
+          }
         />
         <AntDesign
           name="delete"
