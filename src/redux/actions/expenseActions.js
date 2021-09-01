@@ -51,6 +51,7 @@ export const createExpense = (expense) => async (dispatch) => {
 export const updateExpense = (id, expense) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_EXPENSE_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.put(`${BASE_URL}/expenses/${id}`, expense, {
       headers: { token },
     });
@@ -73,6 +74,7 @@ export const updateExpense = (id, expense) => async (dispatch) => {
 export const deleteExpense = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_EXPENSE_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.delete(`${BASE_URL}/expenses/${id}`, {
       headers: { token },
     });
@@ -95,6 +97,7 @@ export const deleteExpense = (id) => async (dispatch) => {
 export const getExpense = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSE_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.get(`${BASE_URL}/expenses/${id}`, {
       headers: { token },
     });
@@ -113,10 +116,11 @@ export const getExpense = (id) => async (dispatch) => {
 export const getExpenses = () => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.get(`${BASE_URL}/expenses`, {
       headers: { token },
     });
-    dispatch({ tyep: GET_EXPENSES_SUCCESS, payload: data });
+    dispatch({ type: GET_EXPENSES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: GET_EXPENSES_FAIL,
@@ -131,10 +135,11 @@ export const getExpenses = () => async (dispatch) => {
 export const getExpensesByAccount = (accountSlug) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_BY_ACCOUNT_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.get(`${BASE_URL}/expenses/${accountSlug}`, {
       headers: { token },
     });
-    dispatch({ tyep: GET_EXPENSES_BY_ACCOUNT_SUCCESS, payload: data });
+    dispatch({ type: GET_EXPENSES_BY_ACCOUNT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: GET_EXPENSES_BY_ACCOUNT_FAIL,
@@ -149,10 +154,11 @@ export const getExpensesByAccount = (accountSlug) => async (dispatch) => {
 export const getExpensesByMonthAndYear = (month, year) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_REQUEST });
+    const token = await AsyncStorage.getItem("token");
     const { data } = await axios.get(`${BASE_URL}/expenses/${month}/${year}`, {
       headers: { token },
     });
-    dispatch({ tyep: GET_EXPENSES_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
+    dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: GET_EXPENSES_BY_MONTH_AND_YEAR_FAIL,

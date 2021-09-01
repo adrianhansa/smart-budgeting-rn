@@ -83,12 +83,15 @@ export const getExpenseReducer = (
   }
 };
 
-export const getExpensesReducer = (state = { ...(expenses = {}) }, action) => {
+export const getExpensesReducer = (
+  state = { ...(expenseList = {}) },
+  action
+) => {
   switch (action.type) {
     case GET_EXPENSES_REQUEST:
       return { loading: true };
     case GET_EXPENSES_SUCCESS:
-      return { loading: false, success: true, expense: action.payload };
+      return { loading: false, success: true, expenses: action.payload };
     case GET_EXPENSES_FAIL:
       return { loading: false, success: false, error: action.payload };
     default:
