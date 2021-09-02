@@ -21,8 +21,8 @@ const ExpensesStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={Expenses} name="ExpensesScreen" />
-      <Stack.Screen component={AddExpense} name="AddExpenseScreen" />
-      <Stack.Screen component={EditExpense} name="EditExpenseScreen" />
+      <Stack.Screen component={AddExpense} name="AddExpense" />
+      <Stack.Screen component={EditExpense} name="EditExpense" />
     </Stack.Navigator>
   );
 };
