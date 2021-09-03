@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Expenses = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { expenseList } = useSelector((state) => state.expenseList);
+  const expenseList = useSelector((state) => state.expenseList);
   useEffect(() => {
     dispatch(getExpenses());
-  }, [dispatch]);
+    console.log(expenseList);
+  }, [dispatch, expenseList]);
   return (
     <View style={styles.container}>
       <Logout />
