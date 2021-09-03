@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,8 +13,16 @@ import { createAccount } from "../../redux/actions/accountActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const AddExpense = ({ navigation }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "A", value: 1 },
+    { label: "B", value: 2 },
+    { label: "C", value: 3 },
+  ]);
   const schemaValidation = yup.object({
     //account, amount, description, date
     amount: yup.string().required(),
@@ -59,6 +67,14 @@ const AddExpense = ({ navigation }) => {
                   value={props.values.account}
                   onChangeText={props.handleChange("account")}
                   onBlur={props.handleBlur("account")}
+                />
+                <DropDownPicker
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
                 />
                 <TextInput
                   placeholder="description"

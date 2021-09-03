@@ -10,7 +10,7 @@ const Expenses = ({ navigation }) => {
   useEffect(() => {
     dispatch(getExpenses());
     console.log(expenseList);
-  }, [dispatch, expenseList]);
+  }, [dispatch]);
   return (
     <View style={styles.container}>
       <Logout />
