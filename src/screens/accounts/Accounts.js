@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { getAccounts } from "../../redux/actions/accountActions";
 import Account from "./Account";
+import Loading from "../../components/Loading";
 
 const Accounts = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Accounts = ({ navigation }) => {
         onPress={() => navigation.navigate("AddAccount")}
       />
       {loading ? (
-        <Text>Loading...</Text>
+        <Loading />
       ) : success ? (
         <FlatList
           style={styles.list}

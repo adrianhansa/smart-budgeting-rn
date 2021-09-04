@@ -3,21 +3,31 @@ import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
 import Logout from "../../components/Logout";
 import { getExpenses } from "../../redux/actions/expenseActions";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 const Expenses = ({ navigation }) => {
   const dispatch = useDispatch();
-  const expenseList = useSelector((state) => state.expenseList);
+  const { expenses, loading, error, success } = useSelector(
+    (state) => state.expenseList
+  );
   useEffect(() => {
     dispatch(getExpenses());
-    console.log(expenseList);
   }, [dispatch]);
   return (
     <View style={styles.container}>
       <Logout />
-      <Text style={styles.title}>Expenses</Text>
-      <Pressable onPress={() => navigation.navigate("AddExpense")}>
-        <Text>Add an Expense</Text>
-      </Pressable>
+      {loading ? (
+        <Loading />
+      ) : success ? (
+        <>
+          <Text style={styles.title}>Expenses</Text>
+          <Pressable onPress={() => navigation.navigate("AddExpense")}>
+            <Text>Add an Expense</Text>
+          </Pressable>
+        </>
+      ) : (
+        <Text>{error}</Text>
+      )}
     </View>
   );
 };
