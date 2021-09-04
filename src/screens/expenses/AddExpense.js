@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { getAccounts } from "../../redux/actions/accountActions";
-import { createAccount } from "../../redux/actions/accountActions";
+import { createExpense } from "../../redux/actions/expenseActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
@@ -39,10 +39,13 @@ const AddExpense = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <Formik
-          initialValues={{ amount: "", account: "", description: "" }}
+          initialValues={{
+            amount: "",
+            account: "",
+            description: "",
+          }}
           onSubmit={(values) => {
-            dispatch(createAccount(values));
-            console.log(values);
+            dispatch(createExpense(values));
             navigation.navigate("ExpensesScreen");
           }}
           schemaValidation={schemaValidation}
@@ -63,15 +66,17 @@ const AddExpense = ({ navigation }) => {
                 ) : success ? (
                   <Picker
                     selectedValue={selectedAccount}
-                    onValueChange={props.handleChange("account")}
+                    onValueChange={(itemValue) => {
+                      props.values.account = itemValue;
+                      setSelectedAccount(itemValue);
+                    }}
                     style={styles.accountList}
                   >
-                    <Picker.Item value="ABC" label="abc" />
                     {accounts.map((account) => {
                       return (
                         <Picker.Item
                           label={account.name}
-                          value={account.slug}
+                          value={account._id}
                           key={account._id}
                         />
                       );
@@ -89,7 +94,7 @@ const AddExpense = ({ navigation }) => {
                   onBlur={props.handleBlur("description")}
                 />
                 <TouchableOpacity
-                  onPress={props.handleSubmit}
+                  onPress={() => props.handleSubmit()}
                   style={styles.buttonWrapper}
                 >
                   <Text style={styles.buttonText}>Add Expense</Text>
@@ -113,6 +118,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     width: Dimensions.get("window").width - 40,
+    marginBottom: 10,
   },
   formContainer: {
     alignItems: "center",

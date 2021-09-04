@@ -30,7 +30,7 @@ const reducerRoot = combineReducers({
   accountUpdated: updateAccountReducer,
   accounts: getAccountsReducer,
   accountDeleted: deleteAccountReducer,
-  expense: createExpenseReducer,
+  expenseCreated: createExpenseReducer,
   expenseDetails: getExpenseReducer,
   expenseUpdated: updateExpenseReducer,
   expenseDeleted: deleteExpenseReducer,

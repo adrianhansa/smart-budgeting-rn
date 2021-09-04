@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
+import { StyleSheet, Pressable, View, Text, FlatList } from "react-native";
 import Logout from "../../components/Logout";
 import { getExpenses } from "../../redux/actions/expenseActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,13 @@ const Expenses = ({ navigation }) => {
       ) : success ? (
         <>
           <Text style={styles.title}>Expenses</Text>
+          <FlatList
+            renderItem={({ item }) => {
+              return <Text>{item.description}</Text>;
+            }}
+            keyExtractor={(item) => item._id}
+            data={expenses}
+          />
           <Pressable onPress={() => navigation.navigate("AddExpense")}>
             <Text>Add an Expense</Text>
           </Pressable>
@@ -33,7 +40,12 @@ const Expenses = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+  },
   title: { fontSize: 36 },
 });
 
