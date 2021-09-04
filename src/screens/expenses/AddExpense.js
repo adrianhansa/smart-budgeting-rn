@@ -13,15 +13,20 @@ import { createAccount } from "../../redux/actions/accountActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { Picker } from "@react-native-picker/picker";
+import Loading from "../../components/Loading";
 
 const AddExpense = ({ navigation }) => {
+  const [selectedAccount, setSelectedAccount] = useState("");
   const schemaValidation = yup.object({
     amount: yup.string().required(),
     account: yup.string().required(),
     description: yup.string().required(),
   });
   const dispatch = useDispatch();
-  const { accounts } = useSelector((state) => state.accounts);
+  const { loading, success, accounts, error } = useSelector(
+    (state) => state.accounts
+  );
   useEffect(() => {
     dispatch(getAccounts());
   }, [dispatch]);
@@ -37,6 +42,7 @@ const AddExpense = ({ navigation }) => {
           initialValues={{ amount: "", account: "", description: "" }}
           onSubmit={(values) => {
             dispatch(createAccount(values));
+            console.log(values);
             navigation.navigate("ExpensesScreen");
           }}
           schemaValidation={schemaValidation}
@@ -52,13 +58,29 @@ const AddExpense = ({ navigation }) => {
                   onChangeText={props.handleChange("amount")}
                   onBlur={props.handleBlur("amount")}
                 />
-                <TextInput
-                  placeholder="account"
-                  style={styles.textInput}
-                  value={props.values.account}
-                  onChangeText={props.handleChange("account")}
-                  onBlur={props.handleBlur("account")}
-                />
+                {loading ? (
+                  <Loading />
+                ) : success ? (
+                  <Picker
+                    selectedValue={selectedAccount}
+                    onValueChange={props.handleChange("account")}
+                    style={styles.accountList}
+                  >
+                    <Picker.Item value="ABC" label="abc" />
+                    {accounts.map((account) => {
+                      return (
+                        <Picker.Item
+                          label={account.name}
+                          value={account.slug}
+                          key={account._id}
+                        />
+                      );
+                    })}
+                  </Picker>
+                ) : (
+                  <Text>{error}</Text>
+                )}
+
                 <TextInput
                   placeholder="description"
                   style={styles.textInput}
@@ -86,8 +108,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  accountList: {
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 12,
+    width: Dimensions.get("window").width - 40,
+  },
   formContainer: {
-    // flexGrow: 1,
     alignItems: "center",
     marginTop: 5,
     justifyContent: "center",
