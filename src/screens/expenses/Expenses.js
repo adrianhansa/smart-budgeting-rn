@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Pressable, View, Text, FlatList } from "react-native";
 import Logout from "../../components/Logout";
 import { getExpenses } from "../../redux/actions/expenseActions";
@@ -8,6 +8,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import Expense from "./Expense";
 
 const Expenses = ({ navigation }) => {
+  const [totalExpenses, setTotalExpenses] = useState(0);
   const dispatch = useDispatch();
   const { expenses, loading, error, success } = useSelector(
     (state) => state.expenseList
@@ -15,12 +16,15 @@ const Expenses = ({ navigation }) => {
   // let expensesSum = 0;
   useEffect(() => {
     dispatch(getExpenses());
-    if (expenses) {
-      const total = expenses.reduce((acc, value) => acc + value.amount);
-      console.log(total);
-      // console.log("Total", expensesSum);
-    }
   }, [dispatch]);
+  useEffect(() => {
+    if (expenses) {
+      const total = expenses.reduce((a, b) => ({
+        amount: a.amount + b.amount,
+      }));
+      setTotalExpenses(total.amount);
+    }
+  }, [expenses]);
   return (
     <View style={styles.container}>
       <Logout />
@@ -28,7 +32,7 @@ const Expenses = ({ navigation }) => {
         <Loading />
       ) : success ? (
         <>
-          <Text style={styles.title}>Expenses</Text>
+          <Text style={styles.title}>Expenses: £ {totalExpenses}</Text>
           <EvilIcons
             name="plus"
             size={48}
