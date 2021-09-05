@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { Formik } from "formik";
 import Logo from "../../components/Logo";
+import Loading from "../../components/Loading";
 
 const Register = ({ navigation }) => {
   const validationSchema = yup.object({
@@ -25,90 +26,93 @@ const Register = ({ navigation }) => {
   });
   const dispatch = useDispatch();
   const { loading, success, user, error } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (success) console.log("Authenticated form register");
-  }, [dispatch, success]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.formContainer}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Logo />
-        <Text style={styles.title}>Register</Text>
-        <Formik
-          initialValues={{
-            name: "",
-            email: "",
-            password: "",
-            passwordVerify: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => dispatch(register(values))}
+      {loading ? (
+        <Loading />
+      ) : (
+        <ScrollView
+          contentContainerStyle={styles.formContainer}
+          keyboardShouldPersistTaps="handled"
         >
-          {(props) => {
-            return (
-              <>
-                <TextInput
-                  placeholder="Name"
-                  style={styles.textInput}
-                  value={props.values.name}
-                  onChangeText={props.handleChange("name")}
-                  onBlur={props.handleBlur("name")}
-                />
-                <Text style={styles.error}>
-                  {props.touched.name && props.errors.name}
-                </Text>
-                <TextInput
-                  placeholder="Email"
-                  style={styles.textInput}
-                  value={props.values.email}
-                  onChangeText={props.handleChange("email")}
-                  onBlur={props.handleBlur("email")}
-                />
-                <Text style={styles.error}>
-                  {props.touched.email && props.errors.email}
-                </Text>
-                <TextInput
-                  placeholder="Password"
-                  style={styles.textInput}
-                  value={props.values.password}
-                  onChangeText={props.handleChange("password")}
-                  onBlur={props.handleBlur("password")}
-                  secureTextEntry
-                />
-                <Text style={styles.error}>
-                  {props.touched.password && props.errors.password}
-                </Text>
-                <TextInput
-                  placeholder="Verify password"
-                  style={styles.textInput}
-                  secureTextEntry
-                  value={props.values.passwordVerify}
-                  onChangeText={props.handleChange("passwordVerify")}
-                  onBlur={props.handleBlur("passwordVerify")}
-                />
-                <Text style={styles.error}>
-                  {props.touched.passwordVerify && props.errors.passwordVerify}
-                </Text>
-                <TouchableOpacity
-                  style={styles.buttonWrapper}
-                  onPress={() => props.handleSubmit()}
-                >
-                  <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
-                <View style={styles.otherScreenWrapper}>
-                  <Text>Already have an account ?</Text>
-                  <Button
-                    title="Sign In"
-                    onPress={() => navigation.navigate("Login")}
+          <Logo />
+          <Text style={styles.title}>Register</Text>
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              passwordVerify: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => dispatch(register(values))}
+          >
+            {(props) => {
+              return (
+                <>
+                  <TextInput
+                    placeholder="Name"
+                    style={styles.textInput}
+                    value={props.values.name}
+                    onChangeText={props.handleChange("name")}
+                    onBlur={props.handleBlur("name")}
                   />
-                </View>
-              </>
-            );
-          }}
-        </Formik>
-      </ScrollView>
+                  <Text style={styles.error}>
+                    {props.touched.name && props.errors.name}
+                  </Text>
+                  <TextInput
+                    placeholder="Email"
+                    style={styles.textInput}
+                    value={props.values.email}
+                    onChangeText={props.handleChange("email")}
+                    onBlur={props.handleBlur("email")}
+                  />
+                  <Text style={styles.error}>
+                    {props.touched.email && props.errors.email}
+                  </Text>
+                  <TextInput
+                    placeholder="Password"
+                    style={styles.textInput}
+                    value={props.values.password}
+                    onChangeText={props.handleChange("password")}
+                    onBlur={props.handleBlur("password")}
+                    secureTextEntry
+                  />
+                  <Text style={styles.error}>
+                    {props.touched.password && props.errors.password}
+                  </Text>
+                  <TextInput
+                    placeholder="Verify password"
+                    style={styles.textInput}
+                    secureTextEntry
+                    value={props.values.passwordVerify}
+                    onChangeText={props.handleChange("passwordVerify")}
+                    onBlur={props.handleBlur("passwordVerify")}
+                  />
+                  <Text style={styles.error}>
+                    {props.touched.passwordVerify &&
+                      props.errors.passwordVerify}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.buttonWrapper}
+                    onPress={() => props.handleSubmit()}
+                  >
+                    <Text style={styles.buttonText}>Register</Text>
+                  </TouchableOpacity>
+                  <View style={styles.otherScreenWrapper}>
+                    <Text>Already have an account ?</Text>
+                    <Button
+                      title="Sign In"
+                      onPress={() => navigation.navigate("Login")}
+                    />
+                  </View>
+                </>
+              );
+            }}
+          </Formik>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -15,16 +15,11 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userActions";
 import Logo from "../../components/Logo";
+import Loading from "../../components/Loading";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const { loading, success, user, error } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (success) {
-      console.log("Authenticated");
-    }
-  }, [dispatch, success]);
 
   const validationSchema = yup.object({
     email: yup.string().required(),
@@ -37,58 +32,64 @@ const Login = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <Logo />
-        <Text style={styles.title}>Enter your credentials</Text>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            dispatch(login(values));
-          }}
-        >
-          {(props) => {
-            return (
-              <>
-                <TextInput
-                  placeholder="Email"
-                  value={props.values.email}
-                  onChangeText={props.handleChange("email")}
-                  onBlur={props.handleBlur("email")}
-                  style={styles.textInput}
-                />
-                <Text style={styles.error}>
-                  {props.touched.email && props.errors.email}
-                </Text>
-                <TextInput
-                  placeholder="Password"
-                  value={props.values.password}
-                  onChangeText={props.handleChange("password")}
-                  onBlur={props.handleBlur("password")}
-                  secureTextEntry
-                  style={styles.textInput}
-                />
-                <Text style={styles.error}>
-                  {props.touched.password && props.errors.password}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => props.handleSubmit()}
-                  style={styles.buttonWrapper}
-                >
-                  <Text style={styles.buttonText}>Access Account</Text>
-                </TouchableOpacity>
-                <View style={styles.otherScreenWrapper}>
-                  <Text>Don't have an account ?</Text>
-                  <Button
-                    title="Sign Up"
-                    onPress={() => navigation.navigate("Register")}
-                  />
-                </View>
-              </>
-            );
-          }}
-        </Formik>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Text style={styles.title}>Enter your credentials</Text>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              validationSchema={validationSchema}
+              onSubmit={(values) => {
+                dispatch(login(values));
+              }}
+            >
+              {(props) => {
+                return (
+                  <>
+                    <TextInput
+                      placeholder="Email"
+                      value={props.values.email}
+                      onChangeText={props.handleChange("email")}
+                      onBlur={props.handleBlur("email")}
+                      style={styles.textInput}
+                    />
+                    <Text style={styles.error}>
+                      {props.touched.email && props.errors.email}
+                    </Text>
+                    <TextInput
+                      placeholder="Password"
+                      value={props.values.password}
+                      onChangeText={props.handleChange("password")}
+                      onBlur={props.handleBlur("password")}
+                      secureTextEntry
+                      style={styles.textInput}
+                    />
+                    <Text style={styles.error}>
+                      {props.touched.password && props.errors.password}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => props.handleSubmit()}
+                      style={styles.buttonWrapper}
+                    >
+                      <Text style={styles.buttonText}>Access Account</Text>
+                    </TouchableOpacity>
+                    <View style={styles.otherScreenWrapper}>
+                      <Text>Don't have an account ?</Text>
+                      <Button
+                        title="Sign Up"
+                        onPress={() => navigation.navigate("Register")}
+                      />
+                    </View>
+                  </>
+                );
+              }}
+            </Formik>
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
