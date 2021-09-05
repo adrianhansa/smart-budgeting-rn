@@ -15,7 +15,7 @@ import { createAccount } from "../../redux/actions/accountActions";
 
 const AddAccount = ({ navigation }) => {
   const dispatch = useDispatch();
-  const schemaValidation = yup.object({
+  const validationSchema = yup.object({
     name: yup.string().required(),
   });
 
@@ -36,7 +36,7 @@ const AddAccount = ({ navigation }) => {
             dispatch(createAccount(values));
             navigation.navigate("Accounts");
           }}
-          schemaValidation={schemaValidation}
+          validationSchema={validationSchema}
         >
           {(props) => {
             return (

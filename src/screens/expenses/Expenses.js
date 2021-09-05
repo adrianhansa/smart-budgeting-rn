@@ -4,6 +4,7 @@ import Logout from "../../components/Logout";
 import { getExpenses } from "../../redux/actions/expenseActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
+import { EvilIcons } from "@expo/vector-icons";
 
 const Expenses = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,12 @@ const Expenses = ({ navigation }) => {
       ) : success ? (
         <>
           <Text style={styles.title}>Expenses</Text>
+          <EvilIcons
+            name="plus"
+            size={48}
+            color="green"
+            onPress={() => navigation.navigate("AddExpense")}
+          />
           <FlatList
             renderItem={({ item }) => {
               return <Text>{item.description}</Text>;
@@ -28,9 +35,6 @@ const Expenses = ({ navigation }) => {
             keyExtractor={(item) => item._id}
             data={expenses}
           />
-          <Pressable onPress={() => navigation.navigate("AddExpense")}>
-            <Text>Add an Expense</Text>
-          </Pressable>
         </>
       ) : (
         <Text>{error}</Text>

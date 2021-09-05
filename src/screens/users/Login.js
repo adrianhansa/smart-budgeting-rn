@@ -26,11 +26,9 @@ const Login = ({ navigation }) => {
     }
   }, [dispatch, success]);
 
-  const schemaValidation = yup.object({
-    name: yup.string().required(),
+  const validationSchema = yup.object({
     email: yup.string().required(),
-    password: yup.string().min(6).required(),
-    passwordVerify: yup.string().required(),
+    password: yup.string().required(),
   });
   return (
     <SafeAreaView style={styles.container}>
@@ -45,7 +43,7 @@ const Login = ({ navigation }) => {
             email: "",
             password: "",
           }}
-          schemaValidation={schemaValidation}
+          validationSchema={validationSchema}
           onSubmit={(values) => {
             dispatch(login(values));
           }}

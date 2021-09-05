@@ -17,7 +17,7 @@ import { Formik } from "formik";
 import Logo from "../../components/Logo";
 
 const Register = ({ navigation }) => {
-  const schemaValidation = yup.object({
+  const validationSchema = yup.object({
     name: yup.string().required(),
     email: yup.string().required(),
     password: yup.string().required().min(6),
@@ -43,7 +43,7 @@ const Register = ({ navigation }) => {
             password: "",
             passwordVerify: "",
           }}
-          schemaValidation={schemaValidation}
+          validationSchema={validationSchema}
           onSubmit={(values) => dispatch(register(values))}
         >
           {(props) => {

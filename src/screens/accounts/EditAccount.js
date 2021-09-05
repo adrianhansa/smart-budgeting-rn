@@ -14,7 +14,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 const EditAccount = ({ route, navigation }) => {
-  const schemaValidation = yup.object({
+  const validationSchema = yup.object({
     name: yup.string().required(),
   });
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const EditAccount = ({ route, navigation }) => {
         ) : success ? (
           <Formik
             initialValues={{ name: account.name }}
-            schemaValidation={schemaValidation}
+            validationSchema={validationSchema}
             onSubmit={(values) => {
               dispatch(updateAccount(account.slug, values));
               navigation.navigate("Accounts");

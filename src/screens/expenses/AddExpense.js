@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  View,
+  SafeAreaView,
   Text,
   TextInput,
   Dimensions,
@@ -15,10 +15,11 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import Loading from "../../components/Loading";
+import { Ionicons } from "@expo/vector-icons";
 
 const AddExpense = ({ navigation }) => {
   const [selectedAccount, setSelectedAccount] = useState("");
-  const schemaValidation = yup.object({
+  const validationSchema = yup.object({
     amount: yup.string().required(),
     account: yup.string().required(),
     description: yup.string().required(),
@@ -32,7 +33,7 @@ const AddExpense = ({ navigation }) => {
   }, [dispatch]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Add Expense</Text>
       <ScrollView
         contentContainerStyle={styles.formContainer}
@@ -44,13 +45,15 @@ const AddExpense = ({ navigation }) => {
             account: "",
             description: "",
           }}
+          validationSchema={validationSchema}
           onSubmit={(values) => {
+            console.log(values);
             dispatch(createExpense(values));
             navigation.navigate("ExpensesScreen");
           }}
-          schemaValidation={schemaValidation}
         >
           {(props) => {
+            console.log(props.errors);
             return (
               <>
                 <TextInput
@@ -61,6 +64,9 @@ const AddExpense = ({ navigation }) => {
                   onChangeText={props.handleChange("amount")}
                   onBlur={props.handleBlur("amount")}
                 />
+                <Text style={styles.error}>
+                  {props.touched.amount && props.errors.amount}
+                </Text>
                 {loading ? (
                   <Loading />
                 ) : success ? (
@@ -93,18 +99,27 @@ const AddExpense = ({ navigation }) => {
                   onChangeText={props.handleChange("description")}
                   onBlur={props.handleBlur("description")}
                 />
+                <Text style={styles.error}>
+                  {props.touched.description && props.errors.description}
+                </Text>
                 <TouchableOpacity
                   onPress={() => props.handleSubmit()}
                   style={styles.buttonWrapper}
                 >
                   <Text style={styles.buttonText}>Add Expense</Text>
                 </TouchableOpacity>
+                <Ionicons
+                  name="arrow-back-circle-outline"
+                  size={48}
+                  color="grey"
+                  onPress={() => navigation.navigate("ExpensesScreen")}
+                />
               </>
             );
           }}
         </Formik>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
