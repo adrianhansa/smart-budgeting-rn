@@ -55,7 +55,7 @@ export const updateExpense = (id, expense) => async (dispatch) => {
     const { data } = await axios.put(`${BASE_URL}/expenses/${id}`, expense, {
       headers: { token },
     });
-    dispatch({ tyep: UPDATE_EXPENSE_SUCCESS, payload: data });
+    dispatch({ type: UPDATE_EXPENSE_SUCCESS, payload: data });
     const response = await axios.get(`${BASE_URL}/expenses`, {
       headers: { token },
     });
@@ -78,7 +78,7 @@ export const deleteExpense = (id) => async (dispatch) => {
     const { data } = await axios.delete(`${BASE_URL}/expenses/${id}`, {
       headers: { token },
     });
-    dispatch({ tyep: DELETE_EXPENSE_SUCCESS, payload: data });
+    dispatch({ type: DELETE_EXPENSE_SUCCESS, payload: data });
     const response = await axios.get(`${BASE_URL}/expenses`, {
       headers: { token },
     });
