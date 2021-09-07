@@ -52,7 +52,6 @@ const AddExpense = ({ navigation }) => {
           }}
         >
           {(props) => {
-            console.log(props.errors);
             return (
               <>
                 <TextInput
@@ -161,7 +160,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   otherScreenWrapper: {
-    // flex: 1,
     flexDirection: "row",
     alignItems: "center",
   },
