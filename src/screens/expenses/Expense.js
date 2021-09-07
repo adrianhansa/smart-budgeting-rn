@@ -5,27 +5,46 @@ import { useDispatch } from "react-redux";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { AntDesign } from "@expo/vector-icons";
 
-const Expense = ({ expense }) => {
+const Expense = ({ expense, navigation }) => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.card}>
-      <Text style={styles.description}>{expense.description}</Text>
-      <Text style={styles.amount}>£ {expense.amount}</Text>
-      <ConfirmationModal
-        title="Are you sure you want to delete this expense ?"
-        deleteAction={() => {
-          dispatch(deleteExpense(expense._id));
+      <View>
+        <Text style={styles.description}>{expense.description}</Text>
+        <Text style={styles.amount}>£ {expense.amount}</Text>
+        <ConfirmationModal
+          title="Are you sure you want to delete this expense ?"
+          deleteAction={() => {
+            dispatch(deleteExpense(expense._id));
+          }}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
-      <AntDesign
-        name="delete"
-        size={24}
-        color="red"
-        onPress={() => setModalVisible(true)}
-      />
+      >
+        <AntDesign
+          style={{ marginRight: 10 }}
+          name="edit"
+          size={24}
+          color="green"
+          onPress={() =>
+            navigation.navigate("EditExpense", { id: expense._id })
+          }
+        />
+        <AntDesign
+          name="delete"
+          size={24}
+          color="red"
+          onPress={() => setModalVisible(true)}
+        />
+      </View>
     </View>
   );
 };

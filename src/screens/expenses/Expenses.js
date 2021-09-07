@@ -53,7 +53,7 @@ const Expenses = ({ navigation }) => {
           />
           <FlatList
             renderItem={({ item }) => {
-              return <Expense expense={item} />;
+              return <Expense expense={item} navigation={navigation} />;
             }}
             keyExtractor={(item) => item._id}
             data={expenses}

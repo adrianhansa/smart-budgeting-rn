@@ -47,7 +47,6 @@ const AddExpense = ({ navigation }) => {
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => {
-            console.log(values);
             dispatch(createExpense(values));
             navigation.navigate("ExpensesScreen");
           }}

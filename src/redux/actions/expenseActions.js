@@ -101,7 +101,7 @@ export const getExpense = (id) => async (dispatch) => {
     const { data } = await axios.get(`${BASE_URL}/expenses/${id}`, {
       headers: { token },
     });
-    dispatch({ tyep: GET_EXPENSE_SUCCESS, payload: data });
+    dispatch({ type: GET_EXPENSE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: GET_EXPENSE_FAIL,
