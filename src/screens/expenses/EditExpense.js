@@ -22,24 +22,25 @@ const EditExpense = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { accounts } = useSelector((state) => state.accounts);
   useEffect(() => {
-    dispatch(getAccounts());
-  }, [dispatch]);
+    if (!accounts) {
+      dispatch(getAccounts());
+    }
+  }, [dispatch, accounts]);
 
   const { loading, expense, success, error } = useSelector(
     (state) => state.expenseDetails
   );
+
+  useEffect(() => {
+    if (!expense) {
+      dispatch(getExpense(route.params.id));
+    }
+  }, [dispatch, expense]);
+
   const [selectedAccount, setSelectedAccount] = useState(
     expense ? expense.account : ""
   );
-  useEffect(() => {
-    dispatch(getExpense(route.params.id));
-    // if (!success) {
 
-    // }
-    // else {
-    //   setSelectedAccount(expense.account);
-    // }
-  }, [dispatch]);
   const validationSchema = yup.object({
     account: yup.string().required(),
     amount: yup.string().required(),
@@ -51,8 +52,7 @@ const EditExpense = ({ route, navigation }) => {
         contentContainerStyle={styles.formContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.title}>Add Expense</Text>
-        <Text style={styles.title}>EditExpense {route.params.id}</Text>
+        <Text style={styles.title}>Edit Expense</Text>
         <Pressable onPress={() => navigation.navigate("ExpensesScreen")}>
           {loading ? (
             <Loading />
@@ -64,9 +64,9 @@ const EditExpense = ({ route, navigation }) => {
                 navigation.navigate("ExpensesScreen");
               }}
               initialValues={{
-                amount: expense.amount,
+                amount: expense.amount.toString(),
                 description: expense.description,
-                account: expense.account,
+                account: selectedAccount,
               }}
               validationSchema={validationSchema}
             >
@@ -95,11 +95,17 @@ const EditExpense = ({ route, navigation }) => {
                         }}
                         style={styles.accountList}
                       >
+                        {accounts && (
+                          <Picker.Item
+                            label={selectedAccount.name}
+                            value={selectedAccount._id}
+                          />
+                        )}
                         {accounts.map((account) => {
                           return (
                             <Picker.Item
                               label={account.name}
-                              value={account._id}
+                              value={account}
                               key={account._id}
                             />
                           );
