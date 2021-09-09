@@ -102,6 +102,7 @@ export const getExpense = (id) => async (dispatch) => {
       headers: { token },
     });
     dispatch({ type: GET_EXPENSE_SUCCESS, payload: data });
+    return data;
   } catch (error) {
     dispatch({
       type: GET_EXPENSE_FAIL,

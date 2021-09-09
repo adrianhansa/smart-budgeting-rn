@@ -15,31 +15,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { getExpense, updateExpense } from "../../redux/actions/expenseActions";
 import { getAccounts } from "../../redux/actions/accountActions";
 import Loading from "../../components/Loading";
-import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
-
+import { Picker } from "@react-native-picker/picker";
 const EditExpense = ({ route, navigation }) => {
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+
+  const [selectedAccount, setSelectedAccount] = useState({});
   const { accounts } = useSelector((state) => state.accounts);
-  useEffect(() => {
-    if (!accounts) {
-      dispatch(getAccounts());
-    }
-  }, [dispatch, accounts]);
 
   const { loading, expense, success, error } = useSelector(
     (state) => state.expenseDetails
   );
 
   useEffect(() => {
-    if (!expense) {
-      dispatch(getExpense(route.params.id));
+    dispatch(getAccounts());
+    dispatch(getExpense(route.params.id));
+    if (accounts && expense) {
+      accounts.filter((account) => {
+        if (account._id === expense.account._id) {
+          // console.log(0, account);
+          setSelectedAccount(account);
+          // console.log(1, selectedAccount);
+        }
+      });
     }
-  }, [dispatch, expense]);
-
-  const [selectedAccount, setSelectedAccount] = useState(
-    expense ? expense.account : ""
-  );
+  }, [selectedAccount]);
 
   const validationSchema = yup.object({
     account: yup.string().required(),
@@ -53,98 +56,91 @@ const EditExpense = ({ route, navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.title}>Edit Expense</Text>
-        <Pressable onPress={() => navigation.navigate("ExpensesScreen")}>
-          {loading ? (
-            <Loading />
-          ) : success ? (
-            <Formik
-              onSubmit={(values) => {
-                console.log(values);
-                dispatch(updateExpense(route.params.id, values));
-                navigation.navigate("ExpensesScreen");
-              }}
-              initialValues={{
-                amount: expense.amount.toString(),
-                description: expense.description,
-                account: selectedAccount,
-              }}
-              validationSchema={validationSchema}
-            >
-              {(props) => {
-                return (
-                  <>
-                    <TextInput
-                      placeholder="amount"
-                      keyboardType="numeric"
-                      style={styles.textInput}
-                      value={props.values.amount}
-                      onChangeText={props.handleChange("amount")}
-                      onBlur={props.handleBlur("amount")}
-                    />
-                    <Text style={styles.error}>
-                      {props.touched.amount && props.errors.amount}
-                    </Text>
-                    {loading ? (
-                      <Loading />
-                    ) : success ? (
-                      <Picker
-                        selectedValue={selectedAccount}
-                        onValueChange={(itemValue) => {
-                          props.values.account = itemValue;
-                          setSelectedAccount(itemValue);
-                        }}
-                        style={styles.accountList}
-                      >
-                        {accounts && (
-                          <Picker.Item
-                            label={selectedAccount.name}
-                            value={selectedAccount._id}
-                          />
-                        )}
-                        {accounts.map((account) => {
-                          return (
-                            <Picker.Item
-                              label={account.name}
-                              value={account}
-                              key={account._id}
-                            />
-                          );
-                        })}
-                      </Picker>
-                    ) : (
-                      <Text>{error}</Text>
-                    )}
-
-                    <TextInput
-                      placeholder="description"
-                      style={styles.textInput}
-                      value={props.values.description}
-                      onChangeText={props.handleChange("description")}
-                      onBlur={props.handleBlur("description")}
-                    />
-                    <Text style={styles.error}>
-                      {props.touched.description && props.errors.description}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => props.handleSubmit()}
-                      style={styles.buttonWrapper}
+        {loading ? (
+          <Loading />
+        ) : success ? (
+          <Formik
+            onSubmit={(values) => {
+              console.log(values);
+              dispatch(updateExpense(route.params.id, values));
+              navigation.navigate("ExpensesScreen");
+            }}
+            initialValues={{
+              amount: expense.amount.toString(),
+              description: expense.description,
+              account: selectedAccount,
+            }}
+            validationSchema={validationSchema}
+          >
+            {(props) => {
+              return (
+                <>
+                  <TextInput
+                    placeholder="amount"
+                    keyboardType="numeric"
+                    style={styles.textInput}
+                    value={props.values.amount}
+                    onChangeText={props.handleChange("amount")}
+                    onBlur={props.handleBlur("amount")}
+                  />
+                  <Text style={styles.error}>
+                    {props.touched.amount && props.errors.amount}
+                  </Text>
+                  {loading ? (
+                    <Loading />
+                  ) : accounts ? (
+                    <Picker
+                      selectedValue={selectedAccount}
+                      onValueChange={(itemValue) => {
+                        props.values.account = itemValue;
+                        setSelectedAccount(itemValue);
+                      }}
+                      style={styles.accountList}
                     >
-                      <Text style={styles.buttonText}>Add Expense</Text>
-                    </TouchableOpacity>
-                    <Ionicons
-                      name="arrow-back-circle-outline"
-                      size={48}
-                      color="grey"
-                      onPress={() => navigation.navigate("ExpensesScreen")}
-                    />
-                  </>
-                );
-              }}
-            </Formik>
-          ) : (
-            <Text>{error}</Text>
-          )}
+                      {accounts.map((account) => {
+                        return (
+                          <Picker.Item
+                            label={account.name}
+                            value={account._id}
+                            key={account._id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  ) : (
+                    <Text>{error}</Text>
+                  )}
 
+                  <TextInput
+                    placeholder="description"
+                    style={styles.textInput}
+                    value={props.values.description}
+                    onChangeText={props.handleChange("description")}
+                    onBlur={props.handleBlur("description")}
+                  />
+                  <Text style={styles.error}>
+                    {props.touched.description && props.errors.description}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => props.handleSubmit()}
+                    style={styles.buttonWrapper}
+                  >
+                    <Text style={styles.buttonText}>Update Expense</Text>
+                  </TouchableOpacity>
+                  <Ionicons
+                    name="arrow-back-circle-outline"
+                    size={48}
+                    color="grey"
+                    onPress={() => navigation.navigate("ExpensesScreen")}
+                  />
+                </>
+              );
+            }}
+          </Formik>
+        ) : (
+          <Text>{error}</Text>
+        )}
+        <Pressable onPress={() => navigation.navigate("ExpensesScreen")}>
           <Text>Go Back</Text>
         </Pressable>
       </ScrollView>
